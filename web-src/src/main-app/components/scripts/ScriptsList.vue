@@ -4,6 +4,10 @@
       <ScriptListGroup v-if="item.isGroup" :key="item.name" :group="item" @group-clicked="groupClicked($event)"/>
       <ScriptListItem v-else :key="item.name" :script="item"/>
     </template>
+    <div v-if="items.length === 0" style="padding-left: 36px;">
+      No scripts found.
+      <a v-if="adminUser" class="primary-color-text" href="admin.html#/scripts/_new"><br>Create</a>
+    </div>
   </div>
 </template>
 
@@ -31,6 +35,7 @@ export default {
 
   computed: {
     ...mapState('scripts', ['scripts', 'selectedScript']),
+    ...mapState('auth', { adminUser: 'admin' }),
 
     items() {
       let groups = this.scripts.filter(script => !isBlankString(script.group))
